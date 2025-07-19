@@ -1,61 +1,189 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Laravel Blade Basics Tutorial 🧩
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+This repository is a beginner-friendly tutorial demonstrating how to use **Blade templates** in a Laravel application.
 
-## About Laravel
+Blade is Laravel’s built-in templating engine — it's clean, powerful, and secure. This project covers layouts, components, directives, and more.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 🚀 Features Covered
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- Blade layout and `@section` usage  
+- Blade directives: `@if`, `@foreach`, `@isset`, etc.  
+- Echoing variables with `{{ }}` (auto-escaped)  
+- Raw HTML with `{!! !!}` (use with caution)  
+- Blade components for reusable UI  
+- Laravel route and view structure  
+- Secure templating by default  
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## 📁 File Structure Overview
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+laravel-blade-basics/
+├── resources/
+│   └── views/
+│       ├── layouts/
+│       │   └── app.blade.php
+│       ├── components/
+│       │   └── alert.blade.php
+│       ├── home.blade.php
+│       └── welcome.blade.php
+├── app/
+│   └── View/Components/
+│       └── Alert.php
+├── routes/
+│   └── web.php
+└── README.md
 
-## Laravel Sponsors
+````
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+---
 
-### Premium Partners
+## 🛠️ Setup Instructions
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+To run this Blade example locally:
 
-## Contributing
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/yourusername/laravel-blade-basics.git
+   cd laravel-blade-basics
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+    ```
 
-## Code of Conduct
+2. **Install Laravel Dependencies**
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+   ```bash
+   composer install
+   cp .env.example .env
+   php artisan key:generate
+   ```
 
-## Security Vulnerabilities
+3. **Serve the Application**
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+   ```bash
+   php artisan serve
+   ```
 
-## License
+4. **Visit in Browser**
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+   ```
+   http://localhost:8000
+   ```
+
+---
+
+## 📄 Key Code Examples
+
+### ✅ `routes/web.php`
+
+```php
+Route::get('/', function () {
+    $user = ['name' => 'Rohit'];
+    return view('home', compact('user'));
+});
+```
+
+### ✅ Layout: `resources/views/layouts/app.blade.php`
+
+```blade
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Laravel Blade</title>
+</head>
+<body>
+    <header><h2>My Laravel App</h2></header>
+
+    <main>
+        @yield('content')
+    </main>
+
+    <footer><p>© 2025 YourApp</p></footer>
+</body>
+</html>
+```
+
+### ✅ View: `resources/views/home.blade.php`
+
+```blade
+@extends('layouts.app')
+
+@section('content')
+    <h1>Welcome to Blade Templates</h1>
+
+    @if($user)
+        <p>Hello, {{ $user['name'] }}!</p>
+    @else
+        <p>Hello, Guest!</p>
+    @endif
+
+    <x-alert type="success" message="You're viewing a reusable component!" />
+@endsection
+```
+
+### ✅ Component: `resources/views/components/alert.blade.php`
+
+```blade
+@props(['type' => 'info', 'message'])
+
+<div class="alert alert-{{ $type }}">
+    {{ $message }}
+</div>
+```
+
+### ✅ Component Class: `app/View/Components/Alert.php`
+
+```php
+namespace App\View\Components;
+
+use Illuminate\View\Component;
+
+class Alert extends Component
+{
+    public $type;
+    public $message;
+
+    public function __construct($type = 'info', $message = '')
+    {
+        $this->type = $type;
+        $this->message = $message;
+    }
+
+    public function render()
+    {
+        return view('components.alert');
+    }
+}
+```
+
+---
+
+## 🎯 Why Use Blade?
+
+* ✅ Clean and readable syntax
+* 🔁 Reusable layouts and components
+* 🔐 Secure templating with auto-escaping
+* ⚡ Built for Laravel, with zero config
+
+---
+
+## 🙌 Credits
+
+Maintained by [Rohit Dhiman](https://github.com/rohitdhiman91)
+Follow for more Laravel tips and tutorials.
+
+---
+
+## 🌟 Like This?
+
+Give it a ⭐️ if you found it helpful!
+Pull requests and suggestions welcome.
+
+---
+
+## 🏷️ Tags
+
+`#Laravel` `#Blade` `#PHP` `#Templating` `#WebDev` `#BeginnerFriendly` `#OpenSource`
